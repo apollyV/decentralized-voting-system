@@ -1,6 +1,7 @@
 "use client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { contractAbi, contractAddress } from "@/constants";
+import { contractAbi, contractAddress } from "../constants";
+
 import {
   useReadContract,
   useAccount,
