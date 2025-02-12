@@ -1,7 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # auto generate files
-/constants
+#/constants
 
 # dependencies
 /node_modules
