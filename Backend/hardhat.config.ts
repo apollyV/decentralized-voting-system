@@ -1,11 +1,14 @@
 import { HardhatUserConfig, task } from "hardhat/config";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 import "@nomicfoundation/hardhat-toolbox";
 import "@nomicfoundation/hardhat-ignition";
 import "hardhat-gas-reporter";
-import "solidity-coverage"
- // /!\
+import "solidity-coverage";
+// /!\
 import "@nomicfoundation/hardhat-verify";
- // /!\
+// /!\
 
 task("accounts", "Prints the list of accounts", async (args, hre) => {
   const accounts = await hre.ethers.getSigners();
