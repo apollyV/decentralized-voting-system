@@ -1,0 +1,34 @@
+{
+  "name": "simplestorage-nextjs-wagmi-rainbowkit-typescript",
+  "version": "1.0.0",
+  "description": "A full-stack decentralized application with Next.js frontend and Hardhat backend",
+  "private": true,
+  "scripts": {
+    "install:backend": "cd Backend && pnpm install",
+    "install:frontend": "cd Frontend && pnpm install",
+    "node": "cd Backend && pnpm node",
+    "dev": "cd Frontend && pnpm dev",
+    "deploy:localhost": "cd Backend && pnpm deploy:localhost",
+    "deploy:sepolia": "cd Backend && pnpm deploy:sepolia",
+    "clean": "cd Backend && pnpm clean",
+    "test": "cd Backend && pnpm test",
+    "build": "cd Frontend && pnpm build",
+    "start": "cd Frontend && pnpm start",
+    "lint": "cd Frontend && pnpm lint"
+  },
+  "workspaces": [
+    "Backend",
+    "Frontend"
+  ],
+  "keywords": [
+    "ethereum",
+    "hardhat",
+    "nextjs",
+    "wagmi",
+    "rainbowkit",
+    "typescript",
+    "dapp"
+  ],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,36 @@
+# Hardhat files
+cache
+artifacts
+typechain
+typechain-types
+
+# Ignition deployment files
+deployment.json
+ignition/deployments
+
+# IDE files
+.vscode
+.idea
+
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Dependencies
+node_modules
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage directory used by tools like istanbul
+coverage
+coverage.json
+
+# Misc
+.DS_Store
+*.pem
