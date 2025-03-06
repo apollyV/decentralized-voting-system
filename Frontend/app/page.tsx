@@ -1,6 +1,6 @@
 "use client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { contractAbi, contractAddress } from "../constants";
+import { contractAbi, contractAddress } from "@/constants";
 
 import {
   useReadContract,
@@ -21,7 +21,7 @@ export default function Home() {
   } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
-    functionName: "retrieve",
+    functionName: "owner",
   });
 
   const { data: hash, writeContract } = useWriteContract();
@@ -41,8 +41,8 @@ export default function Home() {
     writeContract({
       address: contractAddress,
       abi: contractAbi,
-      functionName: "store",
-      args: [BigInt(number)],
+      functionName: "createProposal",
+      args: ["dsqqds"],
     });
   };
 
@@ -69,7 +69,7 @@ export default function Home() {
                       Current Number in Blockchain
                     </p>
                     <span className="text-3xl font-bold">
-                      {numberGet?.toString()}
+                      {numberGet}
                     </span>
                   </div>
                 )}
