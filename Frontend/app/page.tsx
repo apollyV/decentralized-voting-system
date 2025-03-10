@@ -1,6 +1,7 @@
 "use client";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { contractAbi, contractAddress } from "@/constants";
+import {Button} from "@heroui/react";
 
 import {
   useReadContract,
@@ -90,6 +91,8 @@ export default function Home() {
                 <h1 className="text-2xl font-bold mb-6 text-center">
                   Governance DApp
                 </h1>
+                
+                <Button>Hello world</Button>
 
                 <div className="space-y-6">
                   {/* Formulaire pour créer une proposition */}
