@@ -10,6 +10,7 @@ import {
   useWaitForTransactionReceipt,
 } from "wagmi";
 import { useState, useEffect } from "react";
+import ProposalForm from "@/app/components/ProposalForm";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
@@ -91,46 +92,9 @@ export default function Home() {
                 <h1 className="text-2xl font-bold mb-6 text-center">
                   Governance DApp
                 </h1>
-                
-                <Button>Hello world</Button>
 
                 <div className="space-y-6">
-                  {/* Formulaire pour créer une proposition */}
-                  <div className="space-y-4">
-                    <input
-                        type="text"
-                        onChange={(e) => setTitle(e.target.value)}
-                        value={title}
-                        placeholder="Titre de la proposition"
-                        disabled={isConfirming}
-                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-gray-200/20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    />
-
-                    <textarea
-                        onChange={(e) => setDescription(e.target.value)}
-                        value={description}
-                        placeholder="Description de la proposition"
-                        disabled={isConfirming}
-                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-gray-200/20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    />
-
-                    <input
-                        type="number"
-                        onChange={(e) => setDuration(Number(e.target.value))}
-                        value={duration ?? ""}
-                        placeholder="Durée (en secondes)"
-                        disabled={isConfirming}
-                        className="w-full px-4 py-3 rounded-lg bg-white/5 border border-gray-200/20 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                    />
-
-                    <button
-                        onClick={createProposal}
-                        disabled={isConfirming}
-                        className="w-full px-4 py-3 rounded-lg bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed transition-all font-medium"
-                    >
-                      {isConfirming ? "Création en cours..." : "Créer une proposition"}
-                    </button>
-                  </div>
+                  <ProposalForm></ProposalForm>
 
                   {/* Liste des propositions */}
                   <div className="mt-8">

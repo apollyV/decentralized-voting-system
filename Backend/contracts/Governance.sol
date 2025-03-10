@@ -11,41 +11,47 @@ contract Governance is Ownable {
         address author;
         uint256 startDate;
         uint256 endDate;
-        address[] voteForAddresses;
-        address[] voteAgainstAddresses;
-        bool executed;
+        Vote[] votes;
+        uint256 votesForCount;
+        uint256 votesAgainstCount;
+    }
+
+    enum VoteChoices { For, Against }
+
+    struct Vote {
+        address voter;
+        VoteChoices forVote;
     }
 
     mapping(uint256 => Proposal) public proposals;
-    uint256[] public proposalIds; // Liste des IDs des propositions
+    uint256[] public proposalIds;
     IERC20 public imtToken;
 
-    // Le constructeur exige l'adresse du token et celle du propriétaire
     constructor(address imtTokenAddress, address initialOwner) Ownable(initialOwner) {
         imtToken = IERC20(imtTokenAddress);
     }
 
-    function createProposal(string memory title, string memory description, uint256 duration) public {
-        require(duration > 0, "Duration must be greater than zero");
+    function createProposal(string memory title, string memory description, uint256 endDateTimestamp) public {
+        require(endDateTimestamp > 0, "EndDate timestamp must be greater than zero");
 
-        uint256 proposalId = proposalIds.length; // Calcule l'ID de la nouvelle proposition
+        uint256 proposalId = proposalIds.length;
         uint256 startDate = block.timestamp;
-        uint256 endDate = startDate + duration;
+        uint256 endDate = endDateTimestamp;
 
-        proposals[proposalId] = Proposal(
-            title,
-            description,
-            msg.sender,
-            startDate,
-            endDate,
-            new address[](0),
-            new address[](0),
-            false
-        );
+        // Crée un nouveau struct Proposal et initialise ses champs
+        Proposal storage newProposal = proposals[proposalId];
+        newProposal.title = title;
+        newProposal.description = description;
+        newProposal.author = msg.sender;
+        newProposal.startDate = startDate;
+        newProposal.endDate = endDate;
+        newProposal.votesForCount = 0;
+        newProposal.votesAgainstCount = 0;
 
-        proposalIds.push(proposalId); // Stocke le nouvel ID de proposition
+        // Ajoute l'ID de la proposition à la liste des IDs
+        proposalIds.push(proposalId);
     }
-    
+
     function getProposals() public view returns (Proposal[] memory) {
         Proposal[] memory allProposals = new Proposal[](proposalIds.length);
         for (uint256 i = 0; i < proposalIds.length; i++) {
@@ -54,55 +60,58 @@ contract Governance is Ownable {
         return allProposals;
     }
 
-    function vote(uint256 proposalId, bool forVote) public {
-        Proposal storage proposal = proposals[proposalId];
-        require(_hasNotVoted(proposal, msg.sender), "Already voted");
-        require(imtToken.balanceOf(msg.sender) > 0, "No tokens to vote");
-        require(block.timestamp <= proposal.endDate, "Voting period has ended");
+    function getProposalCount() public view returns (uint256) {
+        return proposalIds.length;
+    }
 
+    function vote(uint256 proposalId, bool forVote) public {
+        require(_doesProposalExist(proposalId), "Proposal does not exist");
+
+        Proposal storage proposal = proposals[proposalId];
+
+        require(_hasNotVoted(proposal, msg.sender), "Already voted");
+        require(block.timestamp <= proposal.endDate, "Voting period has ended");
+        //require(imtToken.balanceOf(msg.sender) > 0, "No tokens to vote");
+
+        VoteChoices choice = forVote ? VoteChoices.For : VoteChoices.Against;
+
+        // Enregistre le vote
+        proposal.votes.push(Vote(msg.sender, choice));
+
+        // Met à jour les compteurs
         if (forVote) {
-            proposal.voteForAddresses.push(msg.sender);
+            proposal.votesForCount++;
         } else {
-            proposal.voteAgainstAddresses.push(msg.sender);
+            proposal.votesAgainstCount++;
         }
     }
 
-    function executeProposal(uint256 proposalId) public onlyOwner {
+    function getVotesForProposal(uint256 proposalId) public view returns (Vote[] memory) {
+        require(_doesProposalExist(proposalId), "Proposal does not exist");
         Proposal storage proposal = proposals[proposalId];
-        require(proposal.voteForAddresses.length > proposal.voteAgainstAddresses.length, "Not enough votes in favor");
+        return proposal.votes;
+    }
+
+    function _hasNotVoted(Proposal storage proposal, address voter) internal view returns (bool) {
+        for (uint256 i = 0; i < proposal.votes.length; i++) {
+            if (proposal.votes[i].voter == voter) {
+                return false; // Le votant a déjà voté
+            }
+        }
+        return true; // Le votant n'a pas encore voté
+    }
+
+    function _doesProposalExist(uint256 proposalId) internal view returns (bool) {
+        return proposalId < proposalIds.length;
+    }
+
+    /*function executeProposal(uint256 proposalId) public onlyOwner {
+        Proposal storage proposal = proposals[proposalId];
+        require(proposal.votes.length > proposal.votes.length, "Not enough votes in favor");
         require(block.timestamp > proposal.endDate, "Voting period has not ended");
         require(!proposal.executed, "Already executed");
 
         // Exécute la proposition (marqué comme exécutée)
         proposal.executed = true;
-    }
-
-    function getVotesFor(uint256 proposalId) public view returns (uint256) {
-        return proposals[proposalId].voteForAddresses.length;
-    }
-
-    function getVotesAgainst(uint256 proposalId) public view returns (uint256) {
-        return proposals[proposalId].voteAgainstAddresses.length;
-    }
-
-    function getProposalCount() public view returns (uint256) {
-        return 0; // Retourne le nombre total de propositions
-    }
-
-    // Fonction utilitaire pour vérifier si une adresse a déjà voté
-    function _hasNotVoted(Proposal storage proposal, address voter) internal view returns (bool) {
-        if (_contains(proposal.voteForAddresses, voter)) return false;
-        if (_contains(proposal.voteAgainstAddresses, voter)) return false;
-        return true;
-    }
-
-    // Fonction utilitaire pour vérifier si un tableau contient une adresse
-    function _contains(address[] storage array, address value) internal view returns (bool) {
-        for (uint256 i = 0; i < array.length; i++) {
-            if (array[i] == value) {
-                return true;
-            }
-        }
-        return false;
-    }
+    }*/
 }
