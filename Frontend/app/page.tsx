@@ -11,6 +11,7 @@ import {
 } from "wagmi";
 import { useState, useEffect } from "react";
 import VotingCard from "./components/voting-card/VotingCard";
+import { Proposal } from "./types/proposals";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
@@ -23,6 +24,8 @@ export default function Home() {
   // État pour stocker les propositions
   const [proposals, setProposals] = useState<any[]>([]);
   const [proposalsCount, setProposalsCount] = useState<number>(-1);
+
+  const [currentProposal, setCurrentProposal] = useState<Proposal>();
 
   const { data: hash, writeContract } = useWriteContract();
 
