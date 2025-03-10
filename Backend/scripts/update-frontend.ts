@@ -31,7 +31,7 @@ const updateFrontend = async (network: Network): Promise<void> => {
 
     // Update frontend constants
     const frontendPath = path.join(__dirname, '../../Frontend/constants/index.ts');
-    const content = `// Auto-generated constants for ${contractName} contract on ${network} network
+    const content = `// Auto-generated constants for ${contractName} contract on ${network} network dsqdsqdsqsdq
 export const contractAbi = ${JSON.stringify(abi, null, 2)} as const;
 
 export const contractAddress = "${contractAddress}" as const;`;

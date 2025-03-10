@@ -1,4 +1,4 @@
-// Auto-generated constants for Governance contract on localhost network
+// Auto-generated constants for Governance contract on localhost network dsqdsqdsqsdq
 export const contractAbi = [
   {
     "inputs": [
@@ -101,6 +101,61 @@ export const contractAbi = [
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getProposals",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "title",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "author",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "startDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "endDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address[]",
+            "name": "voteForAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "address[]",
+            "name": "voteAgainstAddresses",
+            "type": "address[]"
+          },
+          {
+            "internalType": "bool",
+            "name": "executed",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct Governance.Proposal[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",

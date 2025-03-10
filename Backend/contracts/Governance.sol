@@ -45,6 +45,14 @@ contract Governance is Ownable {
 
         proposalIds.push(proposalId); // Stocke le nouvel ID de proposition
     }
+    
+    function getProposals() public view returns (Proposal[] memory) {
+        Proposal[] memory allProposals = new Proposal[](proposalIds.length);
+        for (uint256 i = 0; i < proposalIds.length; i++) {
+            allProposals[i] = proposals[proposalIds[i]];
+        }
+        return allProposals;
+    }
 
     function vote(uint256 proposalId, bool forVote) public {
         Proposal storage proposal = proposals[proposalId];
