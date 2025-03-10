@@ -71,24 +71,11 @@ export const contractAbi = [
       },
       {
         "internalType": "uint256",
-        "name": "duration",
+        "name": "endDateTimestamp",
         "type": "uint256"
       }
     ],
     "name": "createProposal",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "proposalId",
-        "type": "uint256"
-      }
-    ],
-    "name": "executeProposal",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -138,19 +125,31 @@ export const contractAbi = [
             "type": "uint256"
           },
           {
-            "internalType": "address[]",
-            "name": "voteForAddresses",
-            "type": "address[]"
+            "components": [
+              {
+                "internalType": "address",
+                "name": "voter",
+                "type": "address"
+              },
+              {
+                "internalType": "enum Governance.VoteChoices",
+                "name": "forVote",
+                "type": "uint8"
+              }
+            ],
+            "internalType": "struct Governance.Vote[]",
+            "name": "votes",
+            "type": "tuple[]"
           },
           {
-            "internalType": "address[]",
-            "name": "voteAgainstAddresses",
-            "type": "address[]"
+            "internalType": "uint256",
+            "name": "votesForCount",
+            "type": "uint256"
           },
           {
-            "internalType": "bool",
-            "name": "executed",
-            "type": "bool"
+            "internalType": "uint256",
+            "name": "votesAgainstCount",
+            "type": "uint256"
           }
         ],
         "internalType": "struct Governance.Proposal[]",
@@ -169,31 +168,24 @@ export const contractAbi = [
         "type": "uint256"
       }
     ],
-    "name": "getVotesAgainst",
+    "name": "getVotesForProposal",
     "outputs": [
       {
-        "internalType": "uint256",
+        "components": [
+          {
+            "internalType": "address",
+            "name": "voter",
+            "type": "address"
+          },
+          {
+            "internalType": "enum Governance.VoteChoices",
+            "name": "forVote",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Governance.Vote[]",
         "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "proposalId",
-        "type": "uint256"
-      }
-    ],
-    "name": "getVotesFor",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -280,9 +272,14 @@ export const contractAbi = [
         "type": "uint256"
       },
       {
-        "internalType": "bool",
-        "name": "executed",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "votesForCount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "votesAgainstCount",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
