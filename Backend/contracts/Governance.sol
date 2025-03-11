@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Governance is Ownable {
     struct Proposal {
+        uint256 id;
         string title;
         string description;
         address author;
@@ -35,10 +36,11 @@ contract Governance is Ownable {
         require(startDateTimestamp > 0, "StartDate timestamp must be greater than zero");
         require(endDateTimestamp > 0, "EndDate timestamp must be greater than zero");
 
-        uint256 proposalId = proposalIds.length;
+        uint256 proposalId = generateId();
 
         // Crée un nouveau struct Proposal et initialise ses champs
         Proposal storage newProposal = proposals[proposalId];
+        newProposal.id = proposalId;
         newProposal.title = title;
         newProposal.description = description;
         newProposal.author = msg.sender;
@@ -49,6 +51,10 @@ contract Governance is Ownable {
 
         // Ajoute l'ID de la proposition à la liste des IDs
         proposalIds.push(proposalId);
+    }
+    
+    function generateId() internal view returns (uint256) {
+        return block.timestamp + block.number;
     }
 
     function getProposals() public view returns (Proposal[] memory) {
@@ -87,21 +93,30 @@ contract Governance is Ownable {
 
     function getVotesForProposal(uint256 proposalId) public view returns (Vote[] memory) {
         require(_doesProposalExist(proposalId), "Proposal does not exist");
-        Proposal storage proposal = proposals[proposalId];
+        Proposal storage proposal = _getProposalFromId(proposalId);
         return proposal.votes;
     }
-
+    
     function _hasNotVoted(Proposal storage proposal, address voter) internal view returns (bool) {
         for (uint256 i = 0; i < proposal.votes.length; i++) {
             if (proposal.votes[i].voter == voter) {
-                return false; // Le votant a déjà voté
+                return false;
             }
         }
-        return true; // Le votant n'a pas encore voté
+        return true;
+    }
+    
+    function _getProposalFromId(uint256 proposalId) internal view returns (Proposal storage) {
+        return proposals[proposalId];
     }
 
     function _doesProposalExist(uint256 proposalId) internal view returns (bool) {
-        return proposalId < proposalIds.length;
+        for (uint256 i = 0; i < proposalIds.length; i++) {
+            if (proposalIds[i] == proposalId) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /*function executeProposal(uint256 proposalId) public onlyOwner {
