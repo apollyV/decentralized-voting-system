@@ -1,14 +1,15 @@
 "use client"
 import { Form, Input, Button, DatePicker } from "@heroui/react";
-import { now, getLocalTimeZone } from "@internationalized/date";
+import { now, getLocalTimeZone, parseDate } from "@internationalized/date";
 import { contractAbi, contractAddress } from "@/constants";
 
 import {
     useWriteContract,
     useWaitForTransactionReceipt,
 } from "wagmi";
+import { parseISO } from "date-fns";
 
-export default function ProposalForm() {
+export default function ProposalForm({ onCreation }) {
     const { data: hash, writeContract } = useWriteContract();
 
     const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
@@ -22,22 +23,17 @@ export default function ProposalForm() {
 
         const data = Object.fromEntries(new FormData(e.currentTarget));
 
-        // Conversion de la date de fin en timestamp UNIX (secondes)
-        const endDateTimestamp = new Date(data.endDate).getTime() / 1000; // Diviser par 1000 pour obtenir des secondes
-
-        console.log("Données envoyées :", {
-            title: data.title,
-            description: data.description,
-            endDate: endDateTimestamp,
-        });
-
+        const startDateTimestamp = parseISO(data.startDate as string).getTime()
+        const endDateTimestamp = parseISO(data.endDate as string).getTime()
+        
         try {
             writeContract({
                 address: contractAddress,
                 abi: contractAbi,
                 functionName: "createProposal",
-                args: [data.title, data.description, BigInt(endDateTimestamp)], // Convertir en BigInt
+                args: [data.title, data.description, BigInt(startDateTimestamp), BigInt(endDateTimestamp)],
             });
+            onCreation('refetchProposals')
         } catch (error) {
             console.error("Erreur lors de la création de la proposition :", error);
             alert("Une erreur s'est produite lors de la création de la proposition.");
@@ -64,9 +60,8 @@ export default function ProposalForm() {
                 <DatePicker
                     isRequired
                     label="Start date"
-                    defaultValue={todayDate}
+                    value={todayDate}
                     minValue={todayDate}
-                    isDisabled={true}
                     hideTimeZone
                     showMonthAndYearPickers
                     labelPlacement="outside"

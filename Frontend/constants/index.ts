@@ -71,6 +71,11 @@ export const contractAbi = [
       },
       {
         "internalType": "uint256",
+        "name": "startDateTimestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
         "name": "endDateTimestamp",
         "type": "uint256"
       }
@@ -99,6 +104,11 @@ export const contractAbi = [
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
           {
             "internalType": "string",
             "name": "title",
@@ -246,6 +256,11 @@ export const contractAbi = [
     ],
     "name": "proposals",
     "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
       {
         "internalType": "string",
         "name": "title",
