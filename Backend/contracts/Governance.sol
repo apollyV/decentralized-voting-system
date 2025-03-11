@@ -31,20 +31,19 @@ contract Governance is Ownable {
         imtToken = IERC20(imtTokenAddress);
     }
 
-    function createProposal(string memory title, string memory description, uint256 endDateTimestamp) public {
+    function createProposal(string memory title, string memory description, uint256 startDateTimestamp, uint256 endDateTimestamp) public {
+        require(startDateTimestamp > 0, "StartDate timestamp must be greater than zero");
         require(endDateTimestamp > 0, "EndDate timestamp must be greater than zero");
 
         uint256 proposalId = proposalIds.length;
-        uint256 startDate = block.timestamp;
-        uint256 endDate = endDateTimestamp;
 
         // Crée un nouveau struct Proposal et initialise ses champs
         Proposal storage newProposal = proposals[proposalId];
         newProposal.title = title;
         newProposal.description = description;
         newProposal.author = msg.sender;
-        newProposal.startDate = startDate;
-        newProposal.endDate = endDate;
+        newProposal.startDate = startDateTimestamp;
+        newProposal.endDate = endDateTimestamp;
         newProposal.votesForCount = 0;
         newProposal.votesAgainstCount = 0;
 
