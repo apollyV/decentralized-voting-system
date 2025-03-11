@@ -21,6 +21,46 @@ export default function Home() {
   const [description, setDescription] = useState<string>("");
   const [duration, setDuration] = useState<number | null>(null);
 
+  const mockProposals: Proposal[] = [
+    {
+      title: "Réduction des impôts",
+      description:
+        "Proposition visant à réduire les impôts de 5% pour les PME.",
+      author: "Alice Dupont",
+      startDate: Date.now(),
+      endDate: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 jours plus tard
+      votes: [],
+      votesForCount: 12,
+      votesAgainstCount: 8,
+    },
+    {
+      title: "Interdiction des plastiques à usage unique",
+      description:
+        "Remplacer les plastiques jetables par des alternatives biodégradables.",
+      author: "Jean Martin",
+      startDate: Date.now(),
+      endDate: Date.now() + 10 * 24 * 60 * 60 * 1000, // 10 jours plus tard
+      votes: [],
+      votesForCount: 20,
+      votesAgainstCount: 5,
+    },
+    {
+      title: "Augmentation du salaire minimum",
+      description: "Proposition pour augmenter le SMIC de 10%.",
+      author: "Sophie Bernard",
+      startDate: Date.now(),
+      endDate: Date.now() + 5 * 24 * 60 * 60 * 1000, // 5 jours plus tard
+      votes: [],
+      votesForCount: 30,
+      votesAgainstCount: 15,
+    },
+  ];
+
+  // Remplace l'état des propositions par les données statiques
+  useEffect(() => {
+    setProposals(mockProposals);
+  }, []);
+
   // État pour stocker les propositions
   const [proposals, setProposals] = useState<any[]>([]);
   const [proposalsCount, setProposalsCount] = useState<number>(-1);
@@ -46,12 +86,12 @@ export default function Home() {
   });
 
   // Mettre à jour les propositions lorsqu'elles sont récupérées
-  useEffect(() => {
-    if (fetchedProposals) {
-      console.log("Fetched proposals", fetchedProposals);
-      setProposals(fetchedProposals);
-    }
-  }, [fetchedProposals]);
+  // useEffect(() => {
+  //   if (fetchedProposals) {
+  //     console.log("Fetched proposals", fetchedProposals);
+  //     setProposals(fetchedProposals);
+  //   }
+  // }, [fetchedProposals]);
 
   // Mettre à jour les propositions lorsqu'elles sont récupérées
   useEffect(() => {
@@ -89,7 +129,12 @@ export default function Home() {
         {/* Liste des propositions */}
         <h2 className="text-xl font-semibold mb-4">Liste des propositions</h2>
         {proposals.length > 0 ? (
-          <Listbox aria-label="Actions" onAction={(key) => alert(key)}>
+          <Listbox
+            aria-label="Actions"
+            onAction={(key) =>
+              setCurrentProposal(proposals.filter((p) => p.id === key)[0])
+            }
+          >
             {proposals.map((proposal) => (
               <ListboxItem key={proposal.id}>{proposal.title}</ListboxItem>
             ))}
@@ -105,7 +150,21 @@ export default function Home() {
       <div className="col-span-9">
         <ConnectButton />
         {isConnected ? (
-          <div>Hello World</div>
+          currentProposal ? (
+            <VotingCard
+              author={currentProposal.author}
+              title={currentProposal.title}
+              description={currentProposal.description}
+              startDate={currentProposal.startDate}
+              endDate={currentProposal.endDate}
+              onVoteFor={() => console.log("Vote for")}
+              onVoteAgainst={() => console.log("Vote against")}
+              isMinimalist={false}
+              index={0}
+            />
+          ) : (
+            <div>Nothing selected</div>
+          )
         ) : (
           <div className="text-center mt-20">
             <h2 className="text-xl font-semibold mb-4">

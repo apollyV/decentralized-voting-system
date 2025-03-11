@@ -1,8 +1,8 @@
 export type ProposalCreationModel = {
-    title: string;
-    description: string;
-    endDate: number | null;
-}
+  title: string;
+  description: string;
+  endDate: number | null;
+};
 
 // struct Proposal {
 //     string title;
@@ -16,22 +16,22 @@ export type ProposalCreationModel = {
 // }
 
 export enum VoteChoice {
-    For = 0,
-    Against = 0,
+  For = 0,
+  Against = 0,
 }
 
 export type Vote = {
-    voter: string;
-    choice: VoteChoice;
-}
+  voter: string;
+  choice: VoteChoice;
+};
 
 export type Proposal = {
-    title: string;
-    description: string;
-    author: string;
-    startDate: number;
-    endDate: number;
-    votes: Vote[];
-    votesForCount: number;
-    votesAgainstCount: number;
-}
+  title: string;
+  description: string;
+  author: string;
+  startDate: Date;
+  endDate: Date;
+  votes: Vote[];
+  votesForCount: number;
+  votesAgainstCount: number;
+};
