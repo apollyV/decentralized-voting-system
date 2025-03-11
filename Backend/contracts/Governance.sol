@@ -90,11 +90,12 @@ contract Governance is Ownable {
             proposal.votesAgainstCount++;
         }
     }
-
-    function getVotesForProposal(uint256 proposalId) public view returns (Vote[] memory) {
-        require(_doesProposalExist(proposalId), "Proposal does not exist");
+    
+    function getProposalById(uint256 proposalId) public view returns (Proposal memory) {
+        //require(_doesProposalExist(proposalId), 'Proposal does not exist');
         Proposal storage proposal = _getProposalFromId(proposalId);
-        return proposal.votes;
+        proposal.id = proposalId;
+        return proposal;
     }
     
     function _hasNotVoted(Proposal storage proposal, address voter) internal view returns (bool) {
@@ -111,12 +112,7 @@ contract Governance is Ownable {
     }
 
     function _doesProposalExist(uint256 proposalId) internal view returns (bool) {
-        for (uint256 i = 0; i < proposalIds.length; i++) {
-            if (proposalIds[i] == proposalId) {
-                return false;
-            }
-        }
-        return true;
+        return proposals[proposalId].id != 0;
     }
 
     /*function executeProposal(uint256 proposalId) public onlyOwner {

@@ -9,7 +9,7 @@ import {
 } from "wagmi";
 import { parseISO } from "date-fns";
 
-export default function ProposalForm({ onCreation }) {
+export default function ProposalForm({ onCreation }: { onCreation: () => void }) {
     const { data: hash, writeContract } = useWriteContract();
 
     const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
@@ -32,13 +32,18 @@ export default function ProposalForm({ onCreation }) {
                 abi: contractAbi,
                 functionName: "createProposal",
                 args: [data.title, data.description, BigInt(startDateTimestamp), BigInt(endDateTimestamp)],
-            });
-            onCreation('refetchProposals')
+            }, {
+                onSuccess: handleProposalCreation
+            })
         } catch (error) {
             console.error("Erreur lors de la création de la proposition :", error);
             alert("Une erreur s'est produite lors de la création de la proposition.");
         }
     };
+    
+    const handleProposalCreation = () => {
+        onCreation();
+    }
 
     return (
         <Form className="w-full flex gap-2" onSubmit={onSubmit}>
