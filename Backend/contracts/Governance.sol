@@ -22,6 +22,7 @@ contract Governance is Ownable {
     struct Vote {
         address voter;
         VoteChoices forVote;
+        string description;
     }
 
     mapping(uint256 => Proposal) public proposals;
@@ -69,7 +70,7 @@ contract Governance is Ownable {
         return proposalIds.length;
     }
 
-    function vote(uint256 proposalId, bool forVote) public {
+    function vote(uint256 proposalId, bool forVote, string memory description) public {
         require(_doesProposalExist(proposalId), "Proposal does not exist");
 
         Proposal storage proposal = proposals[proposalId];
@@ -81,7 +82,7 @@ contract Governance is Ownable {
         VoteChoices choice = forVote ? VoteChoices.For : VoteChoices.Against;
 
         // Enregistre le vote
-        proposal.votes.push(Vote(msg.sender, choice));
+        proposal.votes.push(Vote(msg.sender, choice, description));
 
         // Met à jour les compteurs
         if (forVote) {

@@ -12,6 +12,7 @@ export enum VoteChoice {
 export type Vote = {
   voter: string;
   choice: VoteChoice;
+  description: string;
 };
 
 export type Proposal = {

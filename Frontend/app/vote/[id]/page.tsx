@@ -5,10 +5,13 @@ import {Proposal, Vote} from "@/app/types/proposals";
 import {contractAbi, contractAddress} from "@/constants";
 import { useParams } from "next/navigation";
 import {useEffect, useState } from "react";
-import { useReadContract } from "wagmi";
+import { useReadContract, useWriteContract } from "wagmi";
+import VoteDetail from "@/app/components/VoteDetail";
 
 export default function Page() {
     const { id } = useParams()
+    
+    const { data: hash, writeContract } = useWriteContract();
 
     console.log('id', id)
     
@@ -42,20 +45,36 @@ export default function Page() {
         }
     }, [fetchedProposal]);
     
+    const handleVote = (vote: boolean) => {
+        writeContract({
+            address: contractAddress,
+            abi: contractAbi,
+            functionName: "vote",
+            args: [BigInt(currentProposal.id), vote, "blabla"],
+        })
+    }
+    
     return (
         <div>
             {currentProposal ? (
-                <VotingCard
-                    author={currentProposal.author}
-                    title={currentProposal.title}
-                    description={currentProposal.description}
-                    startDate={currentProposal.startDate}
-                    endDate={currentProposal.endDate}
-                    onVoteFor={() => console.log("Vote for")}
-                    onVoteAgainst={() => console.log("Vote against")}
-                    isMinimalist={false}
-                    index={0}
-                />
+                <div className="flex-col grid grid-cols-12 gap-8 w-full h-full">
+                    <div className="col-span-9">
+                        <VotingCard
+                            author={currentProposal.author}
+                            title={currentProposal.title}
+                            description={currentProposal.description}
+                            startDate={currentProposal.startDate}
+                            endDate={currentProposal.endDate}
+                            onVoteFor={() => handleVote(true)}
+                            onVoteAgainst={() => handleVote(false)}
+                            isMinimalist={false}
+                            index={0}
+                        />
+                    </div>
+                    <div className="col-span-3">
+                        {currentProposal.votes.map((vote: Vote, index: number) => <VoteDetail vote={vote} key={index} />)}
+                    </div>
+                </div> 
             ) : <h2>No proposal found for id: {id}</h2>}
         </div>
     )

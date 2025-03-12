@@ -138,6 +138,11 @@ export const contractAbi = [
                 "internalType": "enum Governance.VoteChoices",
                 "name": "forVote",
                 "type": "uint8"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
               }
             ],
             "internalType": "struct Governance.Vote[]",
@@ -223,6 +228,11 @@ export const contractAbi = [
                 "internalType": "enum Governance.VoteChoices",
                 "name": "forVote",
                 "type": "uint8"
+              },
+              {
+                "internalType": "string",
+                "name": "description",
+                "type": "string"
               }
             ],
             "internalType": "struct Governance.Vote[]",
@@ -378,6 +388,11 @@ export const contractAbi = [
         "internalType": "bool",
         "name": "forVote",
         "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
       }
     ],
     "name": "vote",
