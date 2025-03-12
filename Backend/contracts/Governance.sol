@@ -94,7 +94,6 @@ contract Governance is Ownable {
     function getProposalById(uint256 proposalId) public view returns (Proposal memory) {
         //require(_doesProposalExist(proposalId), 'Proposal does not exist');
         Proposal storage proposal = _getProposalFromId(proposalId);
-        proposal.id = proposalId;
         return proposal;
     }
     

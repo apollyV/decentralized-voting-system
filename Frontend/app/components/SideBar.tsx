@@ -18,6 +18,8 @@ export default function SideBar() {
     useEffect(() => {
         if (event) {
             console.log('event catched !')
+            refetchProposals();
+            refetchProposals();
         }
     })
     
@@ -71,13 +73,13 @@ export default function SideBar() {
         hash,
     });
 
-    const { data: fetchedProposals } = useReadContract({
+    const { data: fetchedProposals, refetch: refetchProposals } = useReadContract({
         address: contractAddress,
         abi: contractAbi,
         functionName: "getProposals",
     });
 
-    const { data: fetchedProposalsCount, isLoading } = useReadContract({
+    const { data: fetchedProposalsCount, isLoading, refetch: refetchProposalsCount } = useReadContract({
         address: contractAddress,
         abi: contractAbi,
         functionName: "getProposalCount",
@@ -102,7 +104,7 @@ export default function SideBar() {
     }, [fetchedProposalsCount]);
     
     return (
-        <div className="p-8">
+        <div>
             <Button className="w-full" color="primary" onPress={() => router.push("/vote/create")}>Créer une proposition</Button>
             {/* Liste des propositions */}
             <div className="mt-4">
