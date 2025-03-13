@@ -1,5 +1,5 @@
 "use client";
-import { Button, Listbox, ListboxItem } from "@heroui/react";
+import { Button, Divider, Listbox, ListboxItem } from "@heroui/react";
 import { Proposal } from "@/app/types/proposals";
 import { contractAbi, contractAddress } from "@/constants";
 import {
@@ -23,44 +23,6 @@ export default function SideBar() {
       refetchProposals();
     }
   });
-
-  // const mockProposals: Proposal[] = [
-  //     {
-  //         id: 1,
-  //         title: "Réduction des impôts",
-  //         description:
-  //             "Proposition visant à réduire les impôts de 5% pour les PME.",
-  //         author: "Alice Dupont",
-  //         startDate: new Date(),
-  //         endDate: new Date(), // 7 jours plus tard
-  //         votes: [],
-  //         votesForCount: 12,
-  //         votesAgainstCount: 8,
-  //     },
-  //     {
-  //         id: 2,
-  //         title: "Interdiction des plastiques à usage unique",
-  //         description:
-  //             "Remplacer les plastiques jetables par des alternatives biodégradables.",
-  //         author: "Jean Martin",
-  //         startDate: new Date(),
-  //         endDate: new Date(), // 10 jours plus tard
-  //         votes: [],
-  //         votesForCount: 20,
-  //         votesAgainstCount: 5,
-  //     },
-  //     {
-  //         id: 3,
-  //         title: "Augmentation du salaire minimum",
-  //         description: "Proposition pour augmenter le SMIC de 10%.",
-  //         author: "Sophie Bernard",
-  //         startDate: new Date(),
-  //         endDate: new Date(), // 5 jours plus tard
-  //         votes: [],
-  //         votesForCount: 30,
-  //         votesAgainstCount: 15,
-  //     },
-  // ];
 
   // État pour stocker les propositions
   const [proposals, setProposals] = useState<any[]>([]);
@@ -111,7 +73,7 @@ export default function SideBar() {
   }, [fetchedProposalsCount]);
 
   return (
-    <div>
+    <aside>
       <CreationModal />
 
       {/* Liste des propositions */}
@@ -134,6 +96,6 @@ export default function SideBar() {
           {isLoading ? <p>Chargement...</p> : <p>{proposalsCount}</p>}
         </div>
       </div>
-    </div>
+    </aside>
   );
 }
