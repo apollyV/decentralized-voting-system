@@ -38,15 +38,15 @@ export default function VotingCard({
       <CardBody>{description}</CardBody>
       <Divider />
       <CardFooter className="flex justify-end gap-2">
-        <Button color="danger" onPress={onVoteAgainst} className="rounded-md">
-          Against
-        </Button>
         <Button
           color="success"
           onPress={onVoteFor}
           className="text-white rounded-md"
         >
           For
+        </Button>
+        <Button color="danger" onPress={onVoteAgainst} className="rounded-md">
+          Against
         </Button>
       </CardFooter>
     </Card>
