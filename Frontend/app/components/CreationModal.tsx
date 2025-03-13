@@ -21,10 +21,15 @@ export default function CreationModal() {
 
   return (
     <div>
-      <Button className="w-full" color="primary" onPress={onOpen}>
+      <Button className="w-full rounded-md" color="primary" onPress={onOpen}>
         Créer une proposition
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="5xl">
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        size="5xl"
+        className="rounded-md"
+      >
         <ModalContent>
           {(onClose) => (
             <>

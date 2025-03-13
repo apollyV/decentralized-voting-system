@@ -15,7 +15,6 @@ export default function VotingCard({
   endDate,
   onVoteFor,
   onVoteAgainst,
-  isMinimalist,
   index,
 }: {
   title: string;
@@ -25,18 +24,13 @@ export default function VotingCard({
   endDate: Date;
   onVoteFor: () => void;
   onVoteAgainst: () => void;
-  isMinimalist: boolean;
   index: number;
 }) {
   const top = index * 3;
 
   return (
-    <Card className={isMinimalist ? `-mt-${top}` : ""}>
-      <CardHeader
-        className={`${
-          isMinimalist ? "text-sm block" : "text-xl"
-        } font-semibold uppercase h-11`}
-      >
+    <Card className="rounded-md">
+      <CardHeader className="text-xl font-semibold uppercase h-11">
         {title}
       </CardHeader>
 
@@ -44,10 +38,14 @@ export default function VotingCard({
       <CardBody>{description}</CardBody>
       <Divider />
       <CardFooter className="flex justify-end gap-2">
-        <Button color="danger" onPress={onVoteAgainst}>
+        <Button color="danger" onPress={onVoteAgainst} className="rounded-md">
           Against
         </Button>
-        <Button color="success" onPress={onVoteFor} className="text-white">
+        <Button
+          color="success"
+          onPress={onVoteFor}
+          className="text-white rounded-md"
+        >
           For
         </Button>
       </CardFooter>

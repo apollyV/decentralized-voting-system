@@ -95,10 +95,15 @@ export default function ProposalForm({
         />
       </section>
       <section className="w-full flex justify-end gap-2">
-        <Button type="reset" variant="flat" color="danger">
+        <Button
+          type="reset"
+          variant="flat"
+          color="danger"
+          className="rounded-md"
+        >
           Reset
         </Button>
-        <Button type="submit" color="primary">
+        <Button type="submit" color="primary" className="rounded-md">
           Submit proposal
         </Button>
       </section>
