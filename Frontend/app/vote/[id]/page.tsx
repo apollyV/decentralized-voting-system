@@ -6,7 +6,7 @@ import { contractAbi, contractAddress } from "@/constants";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useReadContract, useWriteContract } from "wagmi";
-import VoteDetail from "@/app/components/VoteDetail";
+import VoteDetail from "@/app/components/detail/VoteDetail";
 import VotingResults from "@/app/components/VotingResults";
 
 export default function Page() {
@@ -56,7 +56,7 @@ export default function Page() {
   return (
     <div>
       {currentProposal ? (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
           <VotingCard
             author={currentProposal.author}
             title={currentProposal.title}
@@ -75,11 +75,7 @@ export default function Page() {
               100
             }
           />
-          <section>
-            {currentProposal.votes.map((vote: Vote, index: number) => (
-              <VoteDetail vote={vote} key={index} />
-            ))}
-          </section>
+          <VoteDetail votes={currentProposal.votes} />
         </div>
       ) : (
         <h2>No proposal found for id: {id}</h2>
