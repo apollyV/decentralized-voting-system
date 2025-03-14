@@ -18,23 +18,12 @@ export default function SideBar() {
 
   useEffect(() => {
     if (event) {
-      console.log("event catched !");
-      refetchProposals();
       refetchProposals();
     }
   });
 
   // État pour stocker les propositions
   const [proposals, setProposals] = useState<any[]>([]);
-  const [proposalsCount, setProposalsCount] = useState<number>(-1);
-
-  const [currentProposal, setCurrentProposal] = useState<Proposal>();
-
-  const { data: hash, writeContract } = useWriteContract();
-
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
-    hash,
-  });
 
   const { data: fetchedProposals, refetch: refetchProposals } = useReadContract(
     {
@@ -44,33 +33,11 @@ export default function SideBar() {
     }
   );
 
-  const {
-    data: fetchedProposalsCount,
-    isLoading,
-    refetch: refetchProposalsCount,
-  } = useReadContract({
-    address: contractAddress,
-    abi: contractAbi,
-    functionName: "getProposalCount",
-  });
-
   useEffect(() => {
     if (fetchedProposals) {
-      console.log("Fetched proposals", fetchedProposals);
       setProposals(fetchedProposals);
     }
   }, [fetchedProposals]);
-
-  // Mettre à jour les propositions lorsqu'elles sont récupérées
-  useEffect(() => {
-    console.log("useEffect triggered", fetchedProposalsCount);
-    if (typeof fetchedProposalsCount === "bigint") {
-      console.log("Fetched proposals count", fetchedProposalsCount);
-      setProposalsCount(Number(fetchedProposalsCount));
-    } else {
-      console.log("fetchedProposalsCount is undefined or not a bigint");
-    }
-  }, [fetchedProposalsCount]);
 
   return (
     <aside>
@@ -91,10 +58,6 @@ export default function SideBar() {
         ) : (
           <p>Aucune proposition pour le moment.</p>
         )}
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold mb-4">Nombre de propositions</h2>
-          {isLoading ? <p>Chargement...</p> : <p>{proposalsCount}</p>}
-        </div>
       </div>
     </aside>
   );

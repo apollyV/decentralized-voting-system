@@ -4,13 +4,12 @@ export default function VotingResults({ percentFor }: { percentFor: number }) {
 
   return (
     <main>
-      <h1 className="font-semibold text-lg">Results</h1>
       <section
         className="
-        h-4
+        h-6
         w-full
         bg-danger-500
-        rounded-full
+        rounded-lg
         text-white
         font-bold
         text-xs
@@ -21,7 +20,7 @@ export default function VotingResults({ percentFor }: { percentFor: number }) {
       "
       >
         <div
-          className="h-full bg-success-500 rounded-full pl-1 flex place-items-center"
+          className="h-full bg-success-500 rounded-lg pl-1 flex place-items-center"
           style={{ width: `${roundedPercentFor}%` }}
         >
           {roundedPercentFor}%

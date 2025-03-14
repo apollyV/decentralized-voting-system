@@ -22,10 +22,6 @@ export default function Page() {
     args: [BigInt(Number(id))],
   });
 
-  const handleFetchedProposal = (proposal: any) => {
-    console.log("handling", proposal);
-  };
-
   useEffect(() => {
     console.log("fetched proposal", fetchedProposal);
     if (fetchedProposal) {
@@ -34,8 +30,8 @@ export default function Page() {
         title: fetchedProposal.title,
         description: fetchedProposal.description,
         author: fetchedProposal.author,
-        startDate: fetchedProposal.startDate,
-        endDate: fetchedProposal.endDate,
+        startDate: new Date(Number(fetchedProposal.startDate)),
+        endDate: new Date(Number(fetchedProposal.endDate)),
         votes: fetchedProposal.votes,
         votesForCount: 5, //Number(fetchedProposal.votesForCount),
         votesAgainstCount: 7, //Number(fetchedProposal.votesAgainstCount),
@@ -52,30 +48,26 @@ export default function Page() {
       args: [BigInt(currentProposal.id), vote, "blabla"],
     });
   };
-
   return (
     <div>
       {currentProposal ? (
-        <div className="flex flex-col gap-6">
-          <VotingCard
-            author={currentProposal.author}
-            title={currentProposal.title}
-            description={currentProposal.description}
-            startDate={currentProposal.startDate}
-            endDate={currentProposal.endDate}
-            onVoteFor={() => handleVote(true)}
-            onVoteAgainst={() => handleVote(false)}
-            index={0}
-          />
-          <VotingResults
-            percentFor={
-              (currentProposal.votesForCount /
-                (currentProposal.votesForCount +
-                  currentProposal.votesAgainstCount)) *
-              100
-            }
-          />
-          <VoteDetail votes={currentProposal.votes} />
+        <div className="flex gap-6 pt-6 h-screen">
+          <div className="border-r">
+            <VotingCard
+                author={currentProposal.author}
+                title={currentProposal.title}
+                description={currentProposal.description}
+                startDate={currentProposal.startDate}
+                endDate={currentProposal.endDate}
+                votesForCount={currentProposal.votesForCount}
+                votesAgainstCount={currentProposal.votesAgainstCount}
+                onVoteFor={() => handleVote(true)}
+                onVoteAgainst={() => handleVote(false)}
+            />
+          </div>
+          <div>
+            <VoteDetail votes={currentProposal.votes} />
+          </div>
         </div>
       ) : (
         <h2>No proposal found for id: {id}</h2>
