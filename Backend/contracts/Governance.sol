@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Governance is Ownable {
     struct Proposal {
@@ -25,12 +24,10 @@ contract Governance is Ownable {
 
     mapping(uint256 => Proposal) public proposals;
     uint256[] public proposalIds;
-    address initialOwner;
-    IERC20 public imtToken;
+    address public initialOwner;
 
-    constructor(address imtTokenAddress, address initialOwner) Ownable(initialOwner) {
-        imtToken = IERC20(imtTokenAddress);
-        initialOwner = initialOwner;
+    constructor(address initialOwnerAdress) Ownable(initialOwnerAdress) {
+        initialOwner = initialOwnerAdress;
     }
 
     function createProposal(string memory title, string memory description, uint256 startDateTimestamp, uint256 endDateTimestamp) public {
@@ -51,7 +48,7 @@ contract Governance is Ownable {
 
         proposalIds.push(proposalId);
     }
-    
+
     function _generateId() internal view returns (uint256) {
         return block.timestamp + block.number;
     }
@@ -76,7 +73,7 @@ contract Governance is Ownable {
         //require(_isProposalVotable(proposal), "Proposal cannot be voted on because voting period is outdated");
         require(_hasNotVoted(proposal, msg.sender), "Already voted");
         require(block.timestamp <= proposal.endDate, "Voting period has ended");
-        
+
         proposal.votes.push(Vote(msg.sender, forVote, description));
 
         if (forVote) {
@@ -85,13 +82,13 @@ contract Governance is Ownable {
             proposal.votesAgainstCount++;
         }
     }
-    
+
     function getProposalById(uint256 proposalId) public view returns (Proposal memory) {
-        //require(_doesProposalExist(proposalId), 'Proposal does not exist');
+        require(_doesProposalExist(proposalId), 'Proposal does not exist');
         Proposal storage proposal = _getProposalFromId(proposalId);
         return proposal;
     }
-    
+
     function _hasNotVoted(Proposal storage proposal, address voter) internal view returns (bool) {
         for (uint256 i = 0; i < proposal.votes.length; i++) {
             if (proposal.votes[i].voter == voter) {
@@ -100,13 +97,27 @@ contract Governance is Ownable {
         }
         return true;
     }
-    
+
     function _isProposalVotable(Proposal storage proposal) internal view returns (bool) {
         return block.timestamp >= proposal.startDate && block.timestamp <= proposal.endDate;
     }
-    
+
     function _getProposalFromId(uint256 proposalId) internal view returns (Proposal storage) {
         return proposals[proposalId];
+    }
+
+    function _deleteProposalId(uint256 proposalId) internal {
+        uint256 index = 0;
+        bool indexFound = false;
+        for (uint256 i = 0; i < proposalIds.length; i++) {
+            if (proposalIds[i] == proposalId) {
+                index = i;
+                indexFound = true;
+            }
+        }
+        if (indexFound) {
+            delete proposalIds[index];
+        }
     }
 
     function _doesProposalExist(uint256 proposalId) internal view returns (bool) {
@@ -117,8 +128,9 @@ contract Governance is Ownable {
         Proposal storage proposal = proposals[proposalId];
         require(proposal.id != 0, "Proposal does not exist");
         address sender = msg.sender;
-        if(sender == initialOwner || sender == proposal.author) {
+        if (sender == initialOwner || sender == proposal.author) {
             delete proposals[proposalId];
+            _deleteProposalId(proposalId);
         } else {
             revert("You are not allowed to remove this proposal");
         }
