@@ -135,9 +135,9 @@ export const contractAbi = [
                 "type": "address"
               },
               {
-                "internalType": "enum Governance.VoteChoices",
+                "internalType": "bool",
                 "name": "forVote",
-                "type": "uint8"
+                "type": "bool"
               },
               {
                 "internalType": "string",
@@ -225,9 +225,9 @@ export const contractAbi = [
                 "type": "address"
               },
               {
-                "internalType": "enum Governance.VoteChoices",
+                "internalType": "bool",
                 "name": "forVote",
-                "type": "uint8"
+                "type": "bool"
               },
               {
                 "internalType": "string",
@@ -355,6 +355,19 @@ export const contractAbi = [
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "proposalId",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeProposal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
