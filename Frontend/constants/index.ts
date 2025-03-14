@@ -4,12 +4,7 @@ export const contractAbi = [
     "inputs": [
       {
         "internalType": "address",
-        "name": "imtTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "initialOwner",
+        "name": "initialOwnerAdress",
         "type": "address"
       }
     ],
@@ -260,10 +255,10 @@ export const contractAbi = [
   },
   {
     "inputs": [],
-    "name": "imtToken",
+    "name": "initialOwner",
     "outputs": [
       {
-        "internalType": "contract IERC20",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
