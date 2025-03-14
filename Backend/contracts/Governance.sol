@@ -17,22 +17,20 @@ contract Governance is Ownable {
         uint256 votesAgainstCount;
     }
 
-    enum VoteChoices { For, Against }
-
     struct Vote {
         address voter;
-        VoteChoices forVote;
+        bool forVote;
         string description;
     }
 
     mapping(uint256 => Proposal) public proposals;
     uint256[] public proposalIds;
-    address owner;
+    address initialOwner;
     IERC20 public imtToken;
 
     constructor(address imtTokenAddress, address initialOwner) Ownable(initialOwner) {
         imtToken = IERC20(imtTokenAddress);
-        owner = initialOwner;
+        initialOwner = initialOwner;
     }
 
     function createProposal(string memory title, string memory description, uint256 startDateTimestamp, uint256 endDateTimestamp) public {
@@ -75,13 +73,11 @@ contract Governance is Ownable {
 
         Proposal storage proposal = proposals[proposalId];
 
-        require(_isProposalVotable(proposal), "Proposal cannot be voted on because voting period is outdated");
+        //require(_isProposalVotable(proposal), "Proposal cannot be voted on because voting period is outdated");
         require(_hasNotVoted(proposal, msg.sender), "Already voted");
         require(block.timestamp <= proposal.endDate, "Voting period has ended");
-
-        VoteChoices choice = forVote ? VoteChoices.For : VoteChoices.Against;
-
-        proposal.votes.push(Vote(msg.sender, choice, description));
+        
+        proposal.votes.push(Vote(msg.sender, forVote, description));
 
         if (forVote) {
             proposal.votesForCount++;
@@ -121,7 +117,7 @@ contract Governance is Ownable {
         Proposal storage proposal = proposals[proposalId];
         require(proposal.id != 0, "Proposal does not exist");
         address sender = msg.sender;
-        if(sender == owner || sender == proposal.author) {
+        if(sender == initialOwner || sender == proposal.author) {
             delete proposals[proposalId];
         } else {
             revert("You are not allowed to remove this proposal");

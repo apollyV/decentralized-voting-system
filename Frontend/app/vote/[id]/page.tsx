@@ -34,14 +34,15 @@ export default function Page() {
         votesAgainstCount: 7, //Number(fetchedProposal.votesAgainstCount),
       };
       setCurrentProposal(proposal);
+      console.log("proposal", proposal);
     }
   }, [fetchedProposal]);
 
   return (
     <div>
       {currentProposal ? (
-        <div className="flex gap-6 pt-6 h-screen">
-          <div className="border-r">
+        <div className="flex gap-6 pt-6 h-screen w-full">
+          <div className="border-r w-2/3">
             <VotingCard
               proposalId={currentProposal.id}
               author={currentProposal.author}
@@ -53,7 +54,7 @@ export default function Page() {
               votesAgainstCount={currentProposal.votesAgainstCount}
             />
           </div>
-          <div>
+          <div className="w-1/3">
             <VoteDetail votes={currentProposal.votes} />
           </div>
         </div>
