@@ -11,6 +11,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useEventContext } from "@/app/EventContext";
 import CreationModal from "./CreationModal";
+import ProposalDeletion from "./ProposalDeletion";
+import "./sideBar.css";
 
 export default function SideBar() {
   const router = useRouter();
@@ -52,7 +54,12 @@ export default function SideBar() {
             onAction={(key) => router.push(`/vote/${key}`)}
           >
             {proposals.map((proposal: Proposal) => (
-              <ListboxItem key={proposal.id}>{proposal.title}</ListboxItem>
+              <ListboxItem key={proposal.id}>
+                <div className="flex justify-between place-items-center listItemSideBar">
+                  <p>{proposal.title}</p>
+                  <ProposalDeletion proposalId={proposal.id} />
+                </div>
+              </ListboxItem>
             ))}
           </Listbox>
         ) : (

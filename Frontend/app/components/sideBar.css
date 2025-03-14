@@ -1,0 +1,8 @@
+.listItemSideBar__trash {
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.listItemSideBar:hover .listItemSideBar__trash {
+  opacity: 1;
+}
