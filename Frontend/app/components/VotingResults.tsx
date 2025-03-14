@@ -25,7 +25,7 @@ export default function VotingResults({ percentFor }: { percentFor: number }) {
         >
           {roundedPercentFor}%
         </div>
-        <p className="pr-1">{roundedPercentAgainst}%</p>
+        <p className="pr-1 absolute right-0">{roundedPercentAgainst}%</p>
       </section>
     </main>
   );

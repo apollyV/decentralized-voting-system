@@ -12,7 +12,7 @@ export default function Page() {
   const { id } = useParams();
 
   const [currentProposal, setCurrentProposal] = useState<Proposal>();
-  const { data: fetchedProposal } = useReadContract({
+  const { data: fetchedProposal, refetch } = useReadContract({
     address: contractAddress,
     abi: contractAbi,
     functionName: "getProposalById",
@@ -20,7 +20,6 @@ export default function Page() {
   });
 
   useEffect(() => {
-    console.log("fetched proposal", fetchedProposal);
     if (fetchedProposal) {
       const proposal: Proposal = {
         id: Number(fetchedProposal.id),
@@ -52,6 +51,7 @@ export default function Page() {
               endDate={currentProposal.endDate}
               votesForCount={currentProposal.votesForCount}
               votesAgainstCount={currentProposal.votesAgainstCount}
+              voteDone={() => refetch()}
             />
           </div>
           <div className="w-1/3">
