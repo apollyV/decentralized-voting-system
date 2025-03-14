@@ -69,18 +69,17 @@ export default function VotingCard({
 
   return (
     <div className="flex flex-col gap-4 px-8">
-      <div className="flex gap-2 text-xl font-semibold uppercase border-b pb-2 items-center">
-        <div>{title}</div>
-        <div className="flex-1">
-          <VotingResults
-            percentFor={calculateVotePercentFor(
-              votesForCount,
-              votesAgainstCount
-            )}
-          />
-        </div>
-      </div>
+      <div className="text-xl font-semibold uppercase border-b pb-2 items-center">{title}</div>
       <div className="flex flex-col gap-2 w-full">
+        {(votesForCount > 0 || votesAgainstCount > 0) && (
+            <VotingResults
+                percentFor={calculateVotePercentFor(
+                    votesForCount,
+                    votesAgainstCount
+                )}
+            />
+        )}
+        
         <div>
           <span className="font-semibold">Author : </span>
           <span>{author}</span>
@@ -121,7 +120,7 @@ export default function VotingCard({
               {(onClose) => (
                 <>
                   <ModalHeader className="flex flex-col gap-1">
-                    Confirmer le vote
+                    Confirming vote
                   </ModalHeader>
                   <ModalBody>
                     <Form onSubmit={onSubmit} className="flex flex-col gap-8">

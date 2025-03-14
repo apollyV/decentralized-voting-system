@@ -30,8 +30,8 @@ export default function Page() {
         startDate: new Date(Number(fetchedProposal.startDate)),
         endDate: new Date(Number(fetchedProposal.endDate)),
         votes: fetchedProposal.votes,
-        votesForCount: 5, //Number(fetchedProposal.votesForCount),
-        votesAgainstCount: 7, //Number(fetchedProposal.votesAgainstCount),
+        votesForCount: Number(fetchedProposal.votesForCount),
+        votesAgainstCount: Number(fetchedProposal.votesAgainstCount),
       };
       setCurrentProposal(proposal);
       console.log("proposal", proposal);

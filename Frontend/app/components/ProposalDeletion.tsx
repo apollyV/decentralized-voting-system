@@ -1,17 +1,29 @@
 import { CheckIcon, TrashIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import "./sideBar.css";
+import {contractAbi, contractAddress} from "@/constants";
+import {useEventContext} from "@/app/EventContext";
+import { useWriteContract } from "wagmi";
 
 export default function ProposalDeletion({
   proposalId,
 }: {
   proposalId: number;
 }) {
+  const { data: hash, writeContract } = useWriteContract();
+  const { setEvent } = useEventContext();
+  
   const [isConfirming, setIsConfirming] = useState(false);
 
   const onDelete = () => {
-    console.log(proposalId);
+    writeContract({
+      address: contractAddress,
+      abi: contractAbi,
+      functionName: "removeProposal",
+      args: [BigInt(proposalId)],
+    });
     setIsConfirming(false);
+    setEvent("true");
   };
 
   return (

@@ -22,7 +22,7 @@ export default function CreationModal() {
   return (
     <div>
       <Button className="w-full rounded-md" color="primary" onPress={onOpen}>
-        Créer une proposition
+        Create a proposal
       </Button>
       <Modal
         isOpen={isOpen}
@@ -34,7 +34,7 @@ export default function CreationModal() {
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
-                Création d'une proposition
+                Proposal creation
               </ModalHeader>
               <ModalBody>
                 <ProposalForm onCreation={onConfirm} />

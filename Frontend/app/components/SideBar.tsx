@@ -47,7 +47,7 @@ export default function SideBar() {
 
       {/* Liste des propositions */}
       <div className="mt-4">
-        <h2 className="text-xl font-semibold mb-4">Liste des propositions</h2>
+        <h2 className="text-xl font-semibold mb-4">Proposals list</h2>
         {proposals.length > 0 ? (
           <Listbox
             aria-label="Actions"
