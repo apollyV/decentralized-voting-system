@@ -1,5 +1,5 @@
 export default function VotePage() {
     return (
-        <p>Hello !</p>
+        <p>Welcome on Decentralized Vote System !</p>
     )
 }
