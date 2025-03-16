@@ -9,6 +9,11 @@ Notre projet est une DAO, les utilisateurs peuvent créer des propositions de vo
 - Voter pour ou contre un vote avec un commentaire.
 - Supprimer un vote que l'on a créé.
 
+## Notre équipe :
+
+- Constant VENNIN
+- Théo ERNOULD
+- Antoine CHAUVIN
 
 ## [Vidéo de démonstration](https://youtu.be/I_G9H-a4f-M)
 
