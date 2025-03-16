@@ -10,7 +10,7 @@ export default function Connection() {
         <div>
             <ConnectButton />
             {isConnected ? (
-                "Vous êtes connecté"
+                "Vous êtes connecté, allez sur http://localhost:3000/vote pour voter"
             ) : (
                 <div className="text-center mt-20">
                     <h2 className="text-xl font-semibold mb-4">
