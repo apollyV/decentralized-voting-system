@@ -1,4 +1,6 @@
+import { Button } from "@heroui/react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useRouter } from "next/router";
 import { useAccount } from "wagmi";
 
 export default function Connection() {
@@ -8,9 +10,7 @@ export default function Connection() {
         <div>
             <ConnectButton />
             {isConnected ? (
-                <div>
-                    Connecté
-                </div>
+                "Vous êtes connecté"
             ) : (
                 <div className="text-center mt-20">
                     <h2 className="text-xl font-semibold mb-4">
